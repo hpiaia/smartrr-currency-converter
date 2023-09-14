@@ -2,6 +2,7 @@
 dist/
 build/
 out/
+.next/
 
 # dependencies
 node_modules/
@@ -10,6 +11,10 @@ node_modules/
 logs/
 pnpm-debug.log*
 *.log
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 # tests
 coverage/
@@ -23,3 +28,4 @@ coverage/
 
 # misc
 .DS_Store
+*.pem
