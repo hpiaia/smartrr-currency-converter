@@ -14,11 +14,4 @@ export class ConversionService {
   async findById(id: number) {
     return this.databaseService.conversion.findUnique({ where: { id } })
   }
-
-  async findWithRates(id: number) {
-    return this.databaseService.conversion.findUnique({
-      where: { id },
-      include: { rates: true },
-    })
-  }
 }

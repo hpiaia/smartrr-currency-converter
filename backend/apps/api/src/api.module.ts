@@ -1,10 +1,17 @@
 import { CoreModule } from '@app/core'
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
-import { ApiController } from './api.controller'
-import { ConversionController } from './conversion/conversion.controller'
+import { GraphQLModule } from '@nestjs/graphql'
+import { ApiResolver } from './api.resolver'
 
 @Module({
-  imports: [CoreModule],
-  controllers: [ApiController, ConversionController],
+  imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+    }),
+    CoreModule,
+  ],
+  providers: [ApiResolver],
 })
 export class ApiModule {}

@@ -23,6 +23,6 @@ export class ConverterService {
     this.logger.log(`Converting ${conversion.from} to ${conversion.to}`)
 
     const { amount } = await this.converterApiService.convert(conversion.from, conversion.to)
-    this.rateService.insert(conversion.id, amount)
+    this.rateService.create(conversion.id, amount)
   }
 }

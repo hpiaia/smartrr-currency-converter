@@ -7,9 +7,15 @@ export class RateService {
     //
   }
 
-  async insert(conversionId: number, amount: number) {
+  async create(conversionId: number, amount: number) {
     return this.databaseService.rate.create({
       data: { conversionId, amount },
+    })
+  }
+
+  async fromConversion(conversionId: number) {
+    return this.databaseService.rate.findMany({
+      where: { conversionId },
     })
   }
 }
