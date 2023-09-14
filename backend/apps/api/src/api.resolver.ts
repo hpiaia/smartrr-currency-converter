@@ -1,12 +1,14 @@
 import { ConversionService, RateService } from '@app/core'
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { NotFoundException } from '@nestjs/common'
+import { Args, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql'
+import { PubSub } from 'graphql-subscriptions'
 import { Conversion } from './models/conversion.model'
 import { Rate } from './models/rate.model'
-import { NotFoundException } from '@nestjs/common'
 
 @Resolver(() => Conversion)
 export class ApiResolver {
   constructor(
+    private readonly pubSub: PubSub,
     private readonly conversionService: ConversionService,
     private readonly rateService: RateService,
   ) {
@@ -32,5 +34,10 @@ export class ApiResolver {
   @ResolveField('rates', () => [Rate])
   async rates(@Parent() conversion: Conversion) {
     return this.rateService.fromConversion(conversion.id)
+  }
+
+  @Subscription(() => Rate)
+  rateAdded() {
+    return this.pubSub.asyncIterator('rateAdded')
   }
 }

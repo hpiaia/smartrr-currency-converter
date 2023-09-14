@@ -13,10 +13,10 @@ export class Conversion {
   to: string
 
   @Field()
-  createdAt: Date
+  createdAt: string
 
   @Field()
-  updatedAt: Date
+  updatedAt: string
 
   @Field(() => [Rate])
   rates: Rate[]

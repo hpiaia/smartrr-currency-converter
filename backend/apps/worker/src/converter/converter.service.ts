@@ -3,6 +3,7 @@ import { Process, Processor } from '@nestjs/bull'
 import { Inject, Logger } from '@nestjs/common'
 import { Job } from 'bull'
 import { IConverterApiService } from './apis/converter-api.interface'
+import { ClientProxy } from '@nestjs/microservices'
 
 @Processor('conversions')
 export class ConverterService {
@@ -11,7 +12,8 @@ export class ConverterService {
   constructor(
     private readonly conversionService: ConversionService,
     private readonly rateService: RateService,
-    @Inject(IConverterApiService) private readonly converterApiService: IConverterApiService,
+    @Inject('CONVERTER_API_SERVICE') private readonly converterApiService: IConverterApiService,
+    @Inject('MS_SERVICE') private readonly apiClient: ClientProxy,
   ) {
     //
   }
@@ -23,6 +25,8 @@ export class ConverterService {
     this.logger.log(`Converting ${conversion.from} to ${conversion.to}`)
 
     const { amount } = await this.converterApiService.convert(conversion.from, conversion.to)
-    this.rateService.create(conversion.id, amount)
+    const rate = await this.rateService.create(conversion.id, amount)
+
+    this.apiClient.emit('rateAdded', rate)
   }
 }
