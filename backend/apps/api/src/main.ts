@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core'
 import { MicroserviceOptions, Transport } from '@nestjs/microservices'
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { ApiModule } from './api.module'
 
 async function bootstrap() {
@@ -12,15 +11,6 @@ async function bootstrap() {
       port: parseInt(process.env.REDIS_PORT),
     },
   })
-
-  const config = new DocumentBuilder()
-    .setTitle('Currency Converter')
-    .setDescription('The currency converter API description')
-    .setVersion('1.0')
-    .build()
-
-  const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('docs', app, document)
 
   await app.listen(3001)
 }
