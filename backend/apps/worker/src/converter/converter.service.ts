@@ -18,7 +18,7 @@ export class ConverterService {
     //
   }
 
-  @Process()
+  @Process({ concurrency: 10 })
   async convert(job: Job<{ conversionId: number }>) {
     const conversion = await this.conversionService.findById(job.data.conversionId)
 
@@ -26,6 +26,8 @@ export class ConverterService {
 
     const { amount } = await this.converterApiService.convert(conversion.from, conversion.to)
     const rate = await this.rateService.create(conversion.id, amount)
+
+    this.logger.log(`Converted ${conversion.from} to ${conversion.to}`)
 
     this.apiClient.emit('rateAdded', rate)
   }

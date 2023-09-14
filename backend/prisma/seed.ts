@@ -3,8 +3,10 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function run() {
-  await prisma.conversion.create({
-    data: { from: 'USD', to: 'BRL' },
+  const conversions = [{ from: 'USD', to: 'BRL' }]
+
+  await prisma.conversion.createMany({
+    data: conversions,
   })
 }
 

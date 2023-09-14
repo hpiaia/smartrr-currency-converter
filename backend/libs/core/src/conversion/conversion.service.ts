@@ -12,6 +12,14 @@ export class ConversionService {
   }
 
   async findById(id: number) {
-    return this.databaseService.conversion.findUnique({ where: { id } })
+    return this.databaseService.conversion.findUnique({
+      where: { id },
+    })
+  }
+
+  async create({ from, to }: { from: string; to: string }) {
+    return this.databaseService.conversion.create({
+      data: { from, to },
+    })
   }
 }
