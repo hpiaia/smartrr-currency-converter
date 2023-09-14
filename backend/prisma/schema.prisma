@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Conversion {
+  id        Int      @id @default(autoincrement())
+  from      String
+  to        String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rates     Rate[]
+}
+
+model Rate {
+  id           Int        @id @default(autoincrement())
+  conversionId Int
+  amount       Float
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  conversion   Conversion @relation(fields: [conversionId], references: [id])
+}

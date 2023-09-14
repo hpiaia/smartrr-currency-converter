@@ -8,12 +8,15 @@ services:
       target: development
     command: npm run start:dev api
     env_file:
-      - ./backend/apps/api/.env
+      - ./backend/.env
     ports:
       - 3001:3001
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+      - redis
 
   worker:
     build:
@@ -22,16 +25,21 @@ services:
       target: development
     command: npm run start:dev worker
     env_file:
-      - ./backend/apps/worker/.env
+      - ./backend/.env
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+      - redis
 
   postgres:
     image: postgres
     restart: always
     ports:
       - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: docker
 
@@ -40,3 +48,6 @@ services:
     restart: always
     ports:
       - 6379:6379
+
+volumes:
+  postgres-data:
