@@ -21,4 +21,4 @@ CREATE TABLE "Rate" (
 );
 
 -- AddForeignKey
-ALTER TABLE "Rate" ADD CONSTRAINT "Rate_conversionId_fkey" FOREIGN KEY ("conversionId") REFERENCES "Conversion"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Rate" ADD CONSTRAINT "Rate_conversionId_fkey" FOREIGN KEY ("conversionId") REFERENCES "Conversion"("id") ON DELETE CASCADE ON UPDATE CASCADE;
