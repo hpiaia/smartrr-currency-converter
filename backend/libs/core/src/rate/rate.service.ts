@@ -9,10 +9,7 @@ export class RateService {
 
   async insert(conversionId: number, amount: number) {
     return this.databaseService.rate.create({
-      data: {
-        conversionId,
-        amount,
-      },
+      data: { conversionId, amount },
     })
   }
 }
