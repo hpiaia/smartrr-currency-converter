@@ -7,6 +7,8 @@ services:
       dockerfile: ./apps/api/Dockerfile
       target: development
     command: npm run start:dev api
+    env_file:
+      - ./backend/apps/api/.env
     ports:
       - 3001:3001
     volumes:
@@ -19,6 +21,8 @@ services:
       dockerfile: ./apps/worker/Dockerfile
       target: development
     command: npm run start:dev worker
+    env_file:
+      - ./backend/apps/worker/.env
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules
