@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: ./apps/api/Dockerfile
+      target: development
+    command: npm run start:dev api
+    ports:
+      - 3001:3001
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: ./apps/worker/Dockerfile
+      target: development
+    command: npm run start:dev worker
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: docker
+
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
