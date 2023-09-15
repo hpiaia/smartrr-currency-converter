@@ -12,8 +12,8 @@ export class Rate {
   amount: number
 
   @Field()
-  createdAt: string
+  createdAt: Date
 
   @Field()
-  updatedAt: string
+  updatedAt: Date
 }

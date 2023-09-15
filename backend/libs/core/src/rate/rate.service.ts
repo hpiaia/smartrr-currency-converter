@@ -14,6 +14,13 @@ export class RateService {
     })
   }
 
+  async latestFromConversion(conversionId: number) {
+    return this.databaseService.rate.findFirst({
+      where: { conversionId },
+      orderBy: { createdAt: 'desc' },
+    })
+  }
+
   async fromConversion(conversionId: number) {
     return this.databaseService.rate.findMany({
       where: { conversionId },

@@ -35,16 +35,21 @@ export class ApiResolver {
     return conversion
   }
 
+  @ResolveField('latestRate', () => Rate)
+  async latestRate(@Parent() conversion: Conversion) {
+    return this.rateService.latestFromConversion(conversion.id)
+  }
+
   @ResolveField('rates', () => [Rate])
   async rates(@Parent() conversion: Conversion) {
     return this.rateService.fromConversion(conversion.id)
   }
 
   @Subscription(() => Rate, {
-    filter: ({ rateAdded }: { rateAdded: Rate }, { conversionId }: { conversionId: number }) =>
-      rateAdded.conversionId === conversionId,
+    filter: (event: { rateAdded: Rate }, args: { conversionId: number }) =>
+      args.conversionId ? event.rateAdded.conversionId === args.conversionId : true,
   })
-  rateAdded(@Args('conversionId') _: number) {
+  rateAdded(@Args('conversionId', { nullable: true }) _?: number) {
     return this.pubSub.asyncIterator('rateAdded')
   }
 
