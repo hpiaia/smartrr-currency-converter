@@ -28,13 +28,13 @@
         "tsConfigPath": "apps/worker/tsconfig.app.json"
       }
     },
-    "common": {
+    "infrastructure": {
       "type": "library",
-      "root": "libs/common",
+      "root": "libs/infrastructure",
       "entryFile": "index",
-      "sourceRoot": "libs/common/src",
+      "sourceRoot": "libs/infrastructure/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/common/tsconfig.lib.json"
+        "tsConfigPath": "libs/infrastructure/tsconfig.lib.json"
       }
     },
     "core": {
