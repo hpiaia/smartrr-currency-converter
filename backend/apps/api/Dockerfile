@@ -1,26 +1,47 @@
-FROM node:alpine as builder
-WORKDIR /app
+###################
+# BUILD FOR LOCAL DEVELOPMENT
+###################
 
-COPY package*.json ./
+FROM node:20-alpine As development
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package*.json ./
+
 RUN npm ci
+RUN npx prisma generate
 
-COPY . .
+COPY --chown=node:node . .
+
+USER node
+
+###################
+# BUILD FOR PRODUCTION
+###################
+
+FROM node:20-alpine As build
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node . .
+
 RUN npm run build:api
 
-FROM node:alpine as runner
-WORKDIR /app
+ENV NODE_ENV production
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+RUN npm ci --only=production && npm cache clean --force
 
-COPY package*.json ./
-RUN npm install --only=production
+USER node
 
-COPY . .
-COPY --from=builder /app/dist ./dist
+###################
+# PRODUCTION
+###################
 
-EXPOSE 3001
+FROM node:20-alpine As production
 
-ENV PORT 3001
+COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/api/main"]
+CMD [ "node", "dist/apps/api/main.js" ]

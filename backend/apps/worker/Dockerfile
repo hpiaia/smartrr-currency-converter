@@ -1,22 +1,47 @@
-FROM node:alpine as builder
-WORKDIR /app
+###################
+# BUILD FOR LOCAL DEVELOPMENT
+###################
 
-COPY package*.json ./
+FROM node:20-alpine As development
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package*.json ./
+
 RUN npm ci
-
-COPY . .
 RUN npm run build:worker
 
-FROM node:alpine as runner
-WORKDIR /app
+COPY --chown=node:node . .
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+USER node
 
-COPY package*.json ./
-RUN npm install --only=production
+###################
+# BUILD FOR PRODUCTION
+###################
 
-COPY . .
-COPY --from=builder /app/dist ./dist
+FROM node:20-alpine As build
 
-CMD ["node", "dist/apps/worker/main"]
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node . .
+
+RUN npx prisma generate
+
+ENV NODE_ENV production
+
+RUN npm ci --only=production && npm cache clean --force
+
+USER node
+
+###################
+# PRODUCTION
+###################
+
+FROM node:20-alpine As production
+
+COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+
+CMD [ "node", "dist/apps/worker/main.js" ]

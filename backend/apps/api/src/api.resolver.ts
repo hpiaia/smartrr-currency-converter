@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common'
-import { Args, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql'
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions'
 
 import { ConversionService, RateService } from '@app/core'
@@ -37,7 +37,7 @@ export class ApiResolver {
    * @returns {Promise<Conversion>} - Conversion
    */
   @Query(() => Conversion)
-  async conversion(@Args('id') id: number) {
+  async conversion(@Args('id', { type: () => Int }) id: number) {
     const conversion = await this.conversionService.findById(id)
 
     if (!conversion) {
@@ -82,7 +82,7 @@ export class ApiResolver {
     filter: (event: { rateAdded: Rate }, args: { conversionId: number }) =>
       args.conversionId ? event.rateAdded.conversionId === args.conversionId : true,
   })
-  rateAdded(@Args('conversionId', { nullable: true }) _?: number) {
+  rateAdded(@Args('conversionId', { nullable: true, type: () => Int }) _?: number) {
     return this.pubSub.asyncIterator('rateAdded')
   }
 
