@@ -22,4 +22,10 @@ export class ConversionService {
       data: { from, to },
     })
   }
+
+  async withoutRates() {
+    return this.databaseService.conversion.findMany({
+      where: { rates: { none: {} } },
+    })
+  }
 }

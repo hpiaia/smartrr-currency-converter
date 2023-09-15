@@ -1,34 +1,47 @@
 import { ConversionService, RateService } from '@app/core'
 import { InjectQueue } from '@nestjs/bull'
-import { Injectable, Logger } from '@nestjs/common'
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { Queue } from 'bull'
 
 @Injectable()
-export class WorkerService {
+export class WorkerService implements OnModuleInit {
   private readonly logger = new Logger(WorkerService.name)
 
   constructor(
-    @InjectQueue('conversions') private readonly conversionsQueue: Queue<{ conversionId: number }>,
+    @InjectQueue('conversions') private readonly conversionsQueue: Queue<{ conversionId: number; date: Date }>,
     private readonly conversionService: ConversionService,
     private readonly rateService: RateService,
   ) {
     //
   }
 
-  async deleteOldRates() {
-    const limit = new Date(Date.now() - 1000 * 60 * 60 * 24) // 24 hours
-
-    this.logger.debug(`Deleting rates older than ${limit.toISOString()}...`)
-
-    await this.rateService.deleteOldest(limit)
+  onModuleInit() {
+    this.enqueueConversionsWithoutRates()
   }
 
-  async enqueueConversion(conversionId: number) {
-    return this.conversionsQueue.add({ conversionId })
+  async enqueueConversionsWithoutRates() {
+    const conversions = await this.conversionService.withoutRates()
+
+    if (conversions.length) {
+      this.logger.debug(`Found ${conversions.length} conversions without rates, enqueueing...`)
+
+      // if the api supported historical rates by hour, here we would enqueue conversions for the past 24 hours
+      //
+      // const dates = Array.from({ length: 24 }, (_, i) => this.dateInPastHours(i + 1))
+      // conversions.forEach(async (conversion) =>
+      //   dates.forEach(async (date) => await this.enqueueConversion(conversion.id, date)),
+      // )
+
+      conversions.forEach(async (conversion) => await this.enqueueConversion(conversion.id))
+    }
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  async enqueueConversion(conversionId: number, date?: Date) {
+    return this.conversionsQueue.add({ conversionId, date: date ?? new Date() })
+  }
+
+  @Cron(CronExpression.EVERY_HOUR)
   async enqueueAllConversions() {
     const conversions = await this.conversionService.findAll()
 
@@ -38,6 +51,18 @@ export class WorkerService {
 
     conversions.forEach(async (conversion) => await this.enqueueConversion(conversion.id))
 
-    await this.deleteOldRates()
+    await this.deleteOldestRates()
+  }
+
+  async deleteOldestRates() {
+    const limit = this.dateInPastHours(24)
+
+    this.logger.debug(`Deleting rates older than ${limit.toISOString()}...`)
+
+    await this.rateService.deleteOldest(limit)
+  }
+
+  private dateInPastHours(hours: number) {
+    return new Date(Date.now() - 1000 * 60 * 60 * hours)
   }
 }

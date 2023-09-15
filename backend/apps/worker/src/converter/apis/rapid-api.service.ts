@@ -28,7 +28,9 @@ export class RapidApiService implements IConverterApiService {
     //
   }
 
-  async convert(from: string, to: string) {
+  async convert({ from, to }: { from: string; to: string; date?: Date }) {
+    // if api supported historical rates by hour, we use the date parameter to get the rate for that specific time
+
     const { data } = await firstValueFrom(
       this.httpService
         .get<ApiResponse>('https://currency-converter5.p.rapidapi.com/currency/convert', {

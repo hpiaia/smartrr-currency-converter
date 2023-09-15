@@ -19,15 +19,15 @@ export class ConverterService {
   }
 
   @Process({ concurrency: 10 })
-  async convert(job: Job<{ conversionId: number }>) {
-    const conversion = await this.conversionService.findById(job.data.conversionId)
+  async convert(job: Job<{ conversionId: number; date: Date }>) {
+    const { id, from, to } = await this.conversionService.findById(job.data.conversionId)
 
-    this.logger.log(`Converting ${conversion.from} to ${conversion.to}`)
+    this.logger.log(`Converting ${from} to ${to}`)
 
-    const { amount } = await this.converterApiService.convert(conversion.from, conversion.to)
-    const rate = await this.rateService.create(conversion.id, amount)
+    const { amount } = await this.converterApiService.convert({ from, to })
+    const rate = await this.rateService.create(id, amount)
 
-    this.logger.log(`Finished conversion of ${conversion.from} to ${conversion.to}`)
+    this.logger.log(`Finished conversion of ${from} to ${to}`)
 
     this.brokerService.emit('rateAdded', rate)
   }
