@@ -6,6 +6,6 @@ import { RateService } from './rate/rate.service'
 @Module({
   imports: [DatabaseModule],
   providers: [ConversionService, RateService],
-  exports: [DatabaseModule, ConversionService, RateService],
+  exports: [ConversionService, RateService],
 })
 export class CoreModule {}

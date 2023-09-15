@@ -12,7 +12,7 @@ export class ConverterService {
   constructor(
     private readonly conversionService: ConversionService,
     private readonly rateService: RateService,
-    @Inject('CONVERTER_API_SERVICE') private readonly converterApiService: IConverterApiService,
+    @Inject(IConverterApiService) private readonly converterApiService: IConverterApiService,
     private readonly brokerService: BrokerService,
   ) {
     //
