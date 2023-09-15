@@ -6,7 +6,13 @@ export class BrokerService {
     //
   }
 
+  /**
+   * Emit an event to the message broker.
+   *
+   * @param {string} pattern - Event pattern (channel)
+   * @param {T} data - Event data
+   */
   async emit<T>(pattern: string, data: T) {
-    return this.clientProxy.emit(pattern, data)
+    this.clientProxy.emit(pattern, data)
   }
 }

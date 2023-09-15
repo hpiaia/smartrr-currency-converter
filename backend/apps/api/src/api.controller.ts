@@ -12,11 +12,21 @@ export class ApiController {
     //
   }
 
+  /**
+   * Health check.
+   *
+   * @returns {status: 'ok'} - Status
+   */
   @Get()
   index() {
     return { status: 'ok' }
   }
 
+  /**
+   * Handle rate added event.
+   *
+   * @param {Rate} rate - Rate
+   */
   @EventPattern('rateAdded')
   async rateAdded(rate: Rate) {
     this.pubSub.publish('rateAdded', { rateAdded: rate })

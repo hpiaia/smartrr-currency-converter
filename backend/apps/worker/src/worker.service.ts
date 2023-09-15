@@ -19,10 +19,16 @@ export class WorkerService implements OnModuleInit {
     //
   }
 
+  /**
+   * On module init
+   */
   onModuleInit() {
     this.enqueueConversionsWithoutRates()
   }
 
+  /**
+   * Enqueue all the conversions without rates.
+   */
   async enqueueConversionsWithoutRates() {
     const conversions = await this.conversionService.withoutRates()
 
@@ -40,10 +46,22 @@ export class WorkerService implements OnModuleInit {
     }
   }
 
+  /**
+   * Enqueue a conversion for processing.
+   *
+   * @param {number} conversionId - Conversion id
+   * @param {Date} date - date
+   *
+   * @returns {Promise<Job<{ conversionId: number; date: Date }>>} - Job
+   */
   async enqueueConversion(conversionId: number, date?: Date) {
     return this.conversionsQueue.add({ conversionId, date: date ?? new Date() })
   }
 
+  /**
+   * Cron job to enqueue all conversions.
+   * Runs every hour.
+   */
   @Cron(CronExpression.EVERY_HOUR)
   async enqueueAllConversions() {
     const conversions = await this.conversionService.findAll()
@@ -57,6 +75,11 @@ export class WorkerService implements OnModuleInit {
     await this.rateService.deleteOldest(this.hoursInThePast(DELETE_RATES_OLDER_THAN))
   }
 
+  /**
+   * Get a date in the past.
+   *
+   * @param {number} hours - Number of hours to go back
+   */
   private hoursInThePast(hours: number) {
     return new Date(Date.now() - 1000 * 60 * 60 * hours)
   }

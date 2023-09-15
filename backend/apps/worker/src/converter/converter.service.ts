@@ -22,6 +22,12 @@ export class ConverterService {
     //
   }
 
+  /**
+   * Process a conversion job.
+   * The concurrency number is how many jobs will be processed in parallel.
+   *
+   * @param {Job<{ conversionId: number; date: Date }>} job - Job
+   */
   @Process({ concurrency: PROCESS_CONVERSIONS_CONCURRENCY })
   async convert(job: Job<{ conversionId: number; date: Date }>) {
     const { id, from, to } = await this.conversionService.findById(job.data.conversionId)

@@ -11,6 +11,11 @@ export class WorkerController {
     //
   }
 
+  /**
+   * Handle conversion created event.
+   *
+   * @param {number} conversionId - Conversion id
+   */
   @MessagePattern('conversionCreated')
   async conversionCreated(conversionId: number) {
     await this.workerService.enqueueConversion(conversionId)
