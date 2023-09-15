@@ -1,4 +1,5 @@
 import { CoreModule } from '@app/core'
+import { BrokerModule } from '@app/infrastructure'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
@@ -14,6 +15,7 @@ import { ApiController } from './api.controller'
       installSubscriptionHandlers: true,
     }),
     CoreModule,
+    BrokerModule,
   ],
   controllers: [ApiController],
   providers: [ApiResolver, PubSub],

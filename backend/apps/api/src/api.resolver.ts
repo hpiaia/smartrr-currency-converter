@@ -1,4 +1,5 @@
 import { ConversionService, RateService } from '@app/core'
+import { BrokerService } from '@app/infrastructure'
 import { NotFoundException } from '@nestjs/common'
 import { Args, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions'
@@ -11,6 +12,7 @@ export class ApiResolver {
     private readonly pubSub: PubSub,
     private readonly conversionService: ConversionService,
     private readonly rateService: RateService,
+    private readonly brokerService: BrokerService,
   ) {
     //
   }
@@ -40,12 +42,16 @@ export class ApiResolver {
     filter: ({ rateAdded }: { rateAdded: Rate }, { conversionId }: { conversionId: number }) =>
       rateAdded.conversionId === conversionId,
   })
-  rateAdded(@Args('conversionId') conversionId: number) {
+  rateAdded(@Args('conversionId') _: number) {
     return this.pubSub.asyncIterator('rateAdded')
   }
 
   @Mutation(() => Conversion)
-  createConversion(@Args('from') from: string, @Args('to') to: string) {
-    return this.conversionService.create({ from, to })
+  async createConversion(@Args('from') from: string, @Args('to') to: string) {
+    const conversion = await this.conversionService.create({ from, to })
+
+    this.brokerService.emit('conversionCreated', conversion.id)
+
+    return conversion
   }
 }

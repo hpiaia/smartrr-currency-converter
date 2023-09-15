@@ -1,8 +1,9 @@
 import { CoreModule } from '@app/core'
 import { Module } from '@nestjs/common'
 import { ScheduleModule } from '@nestjs/schedule'
-import { WorkerService } from './worker.service'
 import { BullModule } from '@nestjs/bull'
+import { WorkerController } from './worker.controller'
+import { WorkerService } from './worker.service'
 import { ConverterModule } from './converter/converter.module'
 
 @Module({
@@ -18,6 +19,7 @@ import { ConverterModule } from './converter/converter.module'
     CoreModule,
     ConverterModule,
   ],
+  controllers: [WorkerController],
   providers: [WorkerService],
 })
 export class WorkerModule {}

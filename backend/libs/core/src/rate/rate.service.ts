@@ -1,4 +1,4 @@
-import { DatabaseService } from '@app/common'
+import { DatabaseService } from '@app/infrastructure'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
@@ -16,6 +16,12 @@ export class RateService {
   async fromConversion(conversionId: number) {
     return this.databaseService.rate.findMany({
       where: { conversionId },
+    })
+  }
+
+  async deleteOldest(limit: Date) {
+    return this.databaseService.rate.deleteMany({
+      where: { createdAt: { lte: limit } },
     })
   }
 }

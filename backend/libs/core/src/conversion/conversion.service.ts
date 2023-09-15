@@ -1,4 +1,4 @@
-import { DatabaseService } from '@app/common'
+import { DatabaseService } from '@app/infrastructure'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
