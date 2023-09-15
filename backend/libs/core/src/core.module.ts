@@ -1,5 +1,7 @@
-import { DatabaseModule } from '@app/infrastructure'
 import { Module } from '@nestjs/common'
+
+import { DatabaseModule } from '@app/infrastructure'
+
 import { ConversionService } from './conversion/conversion.service'
 import { RateService } from './rate/rate.service'
 

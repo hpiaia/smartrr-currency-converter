@@ -1,8 +1,9 @@
-import { ConversionService, RateService } from '@app/core'
 import { InjectQueue } from '@nestjs/bull'
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { Queue } from 'bull'
+
+import { ConversionService, RateService } from '@app/core'
 
 @Injectable()
 export class WorkerService implements OnModuleInit {

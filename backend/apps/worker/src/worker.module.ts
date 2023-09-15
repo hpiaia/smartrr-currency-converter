@@ -1,10 +1,12 @@
-import { CoreModule } from '@app/core'
+import { BullModule } from '@nestjs/bull'
 import { Module } from '@nestjs/common'
 import { ScheduleModule } from '@nestjs/schedule'
-import { BullModule } from '@nestjs/bull'
+
+import { CoreModule } from '@app/core'
+
+import { ConverterModule } from './converter/converter.module'
 import { WorkerController } from './worker.controller'
 import { WorkerService } from './worker.service'
-import { ConverterModule } from './converter/converter.module'
 
 @Module({
   imports: [

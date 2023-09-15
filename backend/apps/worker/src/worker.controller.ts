@@ -1,5 +1,6 @@
 import { Controller, Logger } from '@nestjs/common'
 import { MessagePattern } from '@nestjs/microservices'
+
 import { WorkerService } from './worker.service'
 
 @Controller()

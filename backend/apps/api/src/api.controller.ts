@@ -1,6 +1,7 @@
 import { Controller, Get, Logger } from '@nestjs/common'
 import { EventPattern } from '@nestjs/microservices'
 import { PubSub } from 'graphql-subscriptions'
+
 import { Rate } from './models/rate.model'
 
 @Controller()

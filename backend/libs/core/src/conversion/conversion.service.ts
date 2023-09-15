@@ -1,5 +1,6 @@
-import { DatabaseService } from '@app/infrastructure'
 import { Injectable } from '@nestjs/common'
+
+import { DatabaseService } from '@app/infrastructure'
 
 @Injectable()
 export class ConversionService {

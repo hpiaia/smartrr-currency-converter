@@ -1,8 +1,10 @@
-import { ConversionService, RateService } from '@app/core'
-import { BrokerService } from '@app/infrastructure'
 import { Process, Processor } from '@nestjs/bull'
 import { Inject, Logger } from '@nestjs/common'
 import { Job } from 'bull'
+
+import { ConversionService, RateService } from '@app/core'
+import { BrokerService } from '@app/infrastructure'
+
 import { IConverterApiService } from './apis/converter-api.interface'
 
 @Processor('conversions')
