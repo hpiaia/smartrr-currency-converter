@@ -2,11 +2,15 @@
   "name": "@smartrr-currency-converter/backend",
   "private": true,
   "scripts": {
-    "build": "nest build",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
+    "build:api": "nest build api",
+    "build:worker": "nest build worker",
+    "start:api": "nest start api",
+    "start:worker": "nest start worker",
+    "dev:api": "nest start --watch api",
+    "dev:worker": "nest start --watch worker",
     "test": "jest",
-    "mfs": "prisma db push --force-reset && prisma db seed"
+    "mfs": "prisma db push --force-reset && prisma db seed",
+    "predev:worker": "prisma migrate dev"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",

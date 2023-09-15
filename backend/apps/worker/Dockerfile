@@ -1,25 +1,22 @@
-FROM node:alpine as development
-
-WORKDIR /usr/src/app
+FROM node:alpine as builder
+WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
 
 COPY . .
-RUN npx prisma generate
-RUN npm run build worker
+RUN npm run build:worker
 
-FROM node:alpine as production
+FROM node:alpine as runner
+WORKDIR /app
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN npm install --only=production
 
 COPY . .
-COPY --from=development /usr/src/app/dist ./dist
+COPY --from=builder /app/dist ./dist
 
 CMD ["node", "dist/apps/worker/main"]
