@@ -22,12 +22,10 @@ export class ConverterService {
   async convert(job: Job<{ conversionId: number; date: Date }>) {
     const { id, from, to } = await this.conversionService.findById(job.data.conversionId)
 
-    this.logger.log(`Converting ${from} to ${to}`)
+    this.logger.log(`Running conversion: id = ${id}, from = ${from}, to = ${to}`)
 
     const { amount } = await this.converterApiService.convert({ from, to })
     const rate = await this.rateService.create(id, amount)
-
-    this.logger.log(`Finished conversion of ${from} to ${to}`)
 
     this.brokerService.emit('rateAdded', rate)
   }
