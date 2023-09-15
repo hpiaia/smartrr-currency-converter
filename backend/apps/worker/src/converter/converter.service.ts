@@ -7,6 +7,8 @@ import { BrokerService } from '@app/infrastructure'
 
 import { IConverterApiService } from './apis/converter-api.interface'
 
+const PROCESS_CONVERSIONS_CONCURRENCY = 10
+
 @Processor('conversions')
 export class ConverterService {
   private readonly logger = new Logger(ConverterService.name)
@@ -20,7 +22,7 @@ export class ConverterService {
     //
   }
 
-  @Process({ concurrency: 10 })
+  @Process({ concurrency: PROCESS_CONVERSIONS_CONCURRENCY })
   async convert(job: Job<{ conversionId: number; date: Date }>) {
     const { id, from, to } = await this.conversionService.findById(job.data.conversionId)
 

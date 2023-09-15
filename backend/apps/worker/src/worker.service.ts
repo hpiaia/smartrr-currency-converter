@@ -5,6 +5,8 @@ import { Queue } from 'bull'
 
 import { ConversionService, RateService } from '@app/core'
 
+const DELETE_RATES_OLDER_THAN = 24 // hours
+
 @Injectable()
 export class WorkerService implements OnModuleInit {
   private readonly logger = new Logger(WorkerService.name)
@@ -29,7 +31,7 @@ export class WorkerService implements OnModuleInit {
 
       // if the api supported historical rates by hour, here we would enqueue conversions for the past 24 hours
       //
-      // const dates = Array.from({ length: 24 }, (_, i) => this.dateInPastHours(i + 1))
+      // const dates = Array.from({ length: 24 }, (_, i) => this.hoursInThePast(i + 1))
       // conversions.forEach(async (conversion) =>
       //   dates.forEach(async (date) => await this.enqueueConversion(conversion.id, date)),
       // )
@@ -52,18 +54,10 @@ export class WorkerService implements OnModuleInit {
 
     conversions.forEach(async (conversion) => await this.enqueueConversion(conversion.id))
 
-    await this.deleteOldestRates()
+    await this.rateService.deleteOldest(this.hoursInThePast(DELETE_RATES_OLDER_THAN))
   }
 
-  async deleteOldestRates() {
-    const limit = this.dateInPastHours(24)
-
-    this.logger.debug(`Deleting rates older than ${limit.toISOString()}...`)
-
-    await this.rateService.deleteOldest(limit)
-  }
-
-  private dateInPastHours(hours: number) {
+  private hoursInThePast(hours: number) {
     return new Date(Date.now() - 1000 * 60 * 60 * hours)
   }
 }
