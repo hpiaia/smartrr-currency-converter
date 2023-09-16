@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 COPY --chown=node:node package*.json ./
 
 RUN npm ci
-RUN npm run build:worker
+RUN npx prisma generate
 
 COPY --chown=node:node . .
 
@@ -27,11 +27,11 @@ COPY --chown=node:node package*.json ./
 COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node . .
 
-RUN npx prisma generate
+RUN npm run build:worker
 
 ENV NODE_ENV production
 
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci --omit=dev && npm cache clean --force
 
 USER node
 
@@ -42,6 +42,8 @@ USER node
 FROM node:20-alpine As production
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=build /usr/src/app/prisma ./prisma
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --chown=node:node --from=build /usr/src/app/package.json ./
 
-CMD [ "node", "dist/apps/worker/main.js" ]
+CMD [ "npm", "run", "start:worker" ]
