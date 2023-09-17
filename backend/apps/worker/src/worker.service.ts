@@ -1,5 +1,5 @@
 import { InjectQueue } from '@nestjs/bull'
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { Queue } from 'bull'
 
@@ -10,7 +10,7 @@ import { ConverterJobData } from './converter/converter.service'
 const DELETE_RATES_OLDER_THAN = 24 // hours
 
 @Injectable()
-export class WorkerService implements OnModuleInit {
+export class WorkerService {
   private readonly logger = new Logger(WorkerService.name)
 
   constructor(
@@ -19,13 +19,6 @@ export class WorkerService implements OnModuleInit {
     private readonly rateService: RateService,
   ) {
     //
-  }
-
-  /**
-   * On module init
-   */
-  onModuleInit() {
-    this.enqueueConversionsWithoutRates()
   }
 
   /**
