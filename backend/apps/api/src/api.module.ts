@@ -15,6 +15,10 @@ import { ApiResolver } from './api.resolver'
       driver: ApolloDriver,
       autoSchemaFile: true,
       installSubscriptionHandlers: true,
+      subscriptions: {
+        'subscriptions-transport-ws': true,
+        'graphql-ws': true,
+      },
     }),
     CoreModule,
     BrokerModule,

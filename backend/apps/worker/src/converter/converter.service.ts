@@ -7,7 +7,12 @@ import { BrokerService } from '@app/infrastructure'
 
 import { IConverterApiService } from './apis/converter-api.interface'
 
-const PROCESS_CONVERSIONS_CONCURRENCY = 10
+const PROCESS_CONVERSIONS_CONCURRENCY = 3
+
+export interface ConverterJobData {
+  conversionId: number
+  date: Date
+}
 
 @Processor('conversions')
 export class ConverterService {
@@ -26,16 +31,16 @@ export class ConverterService {
    * Process a conversion job.
    * The concurrency number is how many jobs will be processed in parallel.
    *
-   * @param {Job<{ conversionId: number; date: Date }>} job - Job
+   * @param {Job<ConverterJobData>} job - Job
    */
   @Process({ concurrency: PROCESS_CONVERSIONS_CONCURRENCY })
-  async convert(job: Job<{ conversionId: number; date: Date }>) {
-    const { id, from, to } = await this.conversionService.findById(job.data.conversionId)
+  async convert({ data: { conversionId, date } }: Job<ConverterJobData>) {
+    const { id, from, to } = await this.conversionService.findById(conversionId)
 
     this.logger.log(`Running conversion: id = ${id}, from = ${from}, to = ${to}`)
 
-    const { amount } = await this.converterApiService.convert({ from, to })
-    const rate = await this.rateService.create(id, amount)
+    const { amount } = await this.converterApiService.convert({ from, to, date })
+    const rate = await this.rateService.create({ conversionId, amount, date })
 
     this.brokerService.emit('rateAdded', rate)
   }

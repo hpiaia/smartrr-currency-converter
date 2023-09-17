@@ -23,7 +23,6 @@ model Rate {
   id           Int        @id @default(autoincrement())
   conversionId Int
   amount       Float
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  date         DateTime   @default(now())
   conversion   Conversion @relation(fields: [conversionId], references: [id], onDelete: Cascade)
 }

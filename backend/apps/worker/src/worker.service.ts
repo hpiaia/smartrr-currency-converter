@@ -5,6 +5,8 @@ import { Queue } from 'bull'
 
 import { ConversionService, RateService } from '@app/core'
 
+import { ConverterJobData } from './converter/converter.service'
+
 const DELETE_RATES_OLDER_THAN = 24 // hours
 
 @Injectable()
@@ -12,7 +14,7 @@ export class WorkerService implements OnModuleInit {
   private readonly logger = new Logger(WorkerService.name)
 
   constructor(
-    @InjectQueue('conversions') private readonly conversionsQueue: Queue<{ conversionId: number; date: Date }>,
+    @InjectQueue('conversions') private readonly conversionsQueue: Queue<ConverterJobData>,
     private readonly conversionService: ConversionService,
     private readonly rateService: RateService,
   ) {
@@ -35,7 +37,7 @@ export class WorkerService implements OnModuleInit {
     if (conversions.length) {
       this.logger.debug(`Found ${conversions.length} conversions without rates, enqueueing...`)
 
-      // if the api supported historical rates by hour, here we would enqueue conversions for the past 24 hours
+      // if the api supported historical rates by hour, here we enqueue conversions for the past 24 hours
       //
       // const dates = Array.from({ length: 24 }, (_, i) => this.hoursInThePast(i + 1))
       // conversions.forEach(async (conversion) =>

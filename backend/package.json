@@ -8,9 +8,7 @@
     "start:worker": "node dist/apps/worker/main.js",
     "dev:api": "nest start --watch api",
     "dev:worker": "nest start --watch worker",
-    "test": "jest",
-    "mfs": "prisma db push --force-reset && prisma db seed",
-    "prestart:worker": "prisma migrate dev"
+    "test": "jest"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",

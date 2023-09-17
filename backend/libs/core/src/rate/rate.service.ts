@@ -13,12 +13,13 @@ export class RateService {
    *
    * @param {number} conversionId - Conversion id
    * @param {number} amount - Amount
+   * @param {number} date - Date (optional)
    *
    * @returns {Promise<Rate>} - Rate
    */
-  async create(conversionId: number, amount: number) {
+  async create({ conversionId, amount, date }: { conversionId: number; amount: number; date?: Date }) {
     return this.databaseService.rate.create({
-      data: { conversionId, amount },
+      data: { conversionId, amount, date },
     })
   }
 
@@ -32,7 +33,7 @@ export class RateService {
   async latestFromConversion(conversionId: number) {
     return this.databaseService.rate.findFirst({
       where: { conversionId },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { date: 'desc' },
     })
   }
 
@@ -46,6 +47,7 @@ export class RateService {
   async fromConversion(conversionId: number) {
     return this.databaseService.rate.findMany({
       where: { conversionId },
+      orderBy: { date: 'desc' },
     })
   }
 
@@ -58,7 +60,7 @@ export class RateService {
    */
   async deleteOldest(limit: Date) {
     return this.databaseService.rate.deleteMany({
-      where: { createdAt: { lte: limit } },
+      where: { date: { lte: limit } },
     })
   }
 }

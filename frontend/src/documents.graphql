@@ -1,0 +1,41 @@
+query AllConversions {
+  conversions {
+    id
+    from
+    to
+    latestRate {
+      id
+      amount
+      date
+    }
+  }
+}
+
+query GetConversion($id: Int!) {
+  conversion(id: $id) {
+    id
+    from
+    to
+    rates {
+      id
+      conversionId
+      amount
+      date
+    }
+  }
+}
+
+subscription RateAdded($conversionId: Int) {
+  rateAdded(conversionId: $conversionId) {
+    id
+    conversionId
+    amount
+    date
+  }
+}
+
+mutation CreateConversion($from: String!, $to: String!) {
+  createConversion(from: $from, to: $to) {
+    id
+  }
+}

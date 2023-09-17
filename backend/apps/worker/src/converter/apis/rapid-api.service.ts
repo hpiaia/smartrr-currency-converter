@@ -28,8 +28,9 @@ export class RapidApiService implements IConverterApiService {
     //
   }
 
-  async convert({ from, to }: { from: string; to: string; date?: Date }) {
+  async convert({ from, to, date }: { from: string; to: string; date?: Date }) {
     // if api supported historical rates by hour, we use the date parameter to get the rate for that specific time
+    // as it doen't, if data is passed, we just get the latest rate and mock it with a random variation of 0.5%
 
     const { data } = await firstValueFrom(
       this.httpService
@@ -47,8 +48,16 @@ export class RapidApiService implements IConverterApiService {
         ),
     )
 
-    return {
-      amount: Number(data.rates[to].rate),
+    const amount = Number(data.rates[to].rate)
+
+    // mock the rate with a random variation of 0.5%
+    if (date && from !== to) {
+      const variation = amount * 0.01
+      const randomVariation = (Math.random() - 0.5) * 2 * variation
+
+      return { amount: Number((amount + randomVariation).toFixed(4)) }
     }
+
+    return { amount }
   }
 }

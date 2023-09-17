@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  @apply h-full;
+}
+
+@layer utilities {
+  /* chrome, safari and opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ie, edge and firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

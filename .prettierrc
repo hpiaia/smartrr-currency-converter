@@ -2,9 +2,10 @@
   "printWidth": 120,
   "semi": false,
   "singleQuote": true,
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "endOfLine": "lf",
+  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
   "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
-  "importOrder": ["^antd/dist/(.*)$", "<THIRD_PARTY_MODULES>", "^@app/(.*)$", "^@/(.*)$", "^[./]"],
+  "importOrder": ["^./(.*).css$", "<THIRD_PARTY_MODULES>", "^@app/(.*)$", "^@/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
   "importOrderGroupNamespaceSpecifiers": true
