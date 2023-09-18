@@ -41,10 +41,10 @@ export default function ConversionStats({ rates }: Props) {
       </div>
 
       <div className="flex flex-col justify-center bg-slate-50 p-8">
-        {rates.length < 2 ? (
+        {rates.length < 3 ? (
           <dt className="text-sm font-semibold leading-6 text-slate-600">Not enough data</dt>
         ) : (
-          <Sparklines data={rates.map((rate) => rate.amount)} height={60} style={{ height: 60 }}>
+          <Sparklines data={rates.map((rate) => rate.amount).reverse()} height={60} style={{ height: 60 }}>
             <SparklinesLine color="blue" />
           </Sparklines>
         )}
