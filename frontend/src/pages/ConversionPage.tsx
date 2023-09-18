@@ -7,6 +7,7 @@ import ConversionStats from '@/components/ConversionStats'
 import RatesFeed from '@/components/RatesFeed'
 import { currencies } from '@/lib/currencies'
 import { useGetConversionQuery, useRateAddedSubscription } from '@/lib/gql'
+import { ConversionNotFound } from '@/components/ConversionNotFound'
 
 export default function ConversionPage() {
   const params = useParams()
@@ -27,7 +28,7 @@ export default function ConversionPage() {
   )
 
   if (fetching) return <ConversionPageSkeleton />
-  if (!data) return null
+  if (!data) return <ConversionNotFound />
 
   return (
     <div>
