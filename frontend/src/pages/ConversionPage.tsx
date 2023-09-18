@@ -2,7 +2,7 @@ import { ArrowRightLeftIcon } from 'lucide-react'
 import CurrencyFlag from 'react-currency-flags'
 import { useParams } from 'react-router-dom'
 
-import { ConversionNotFound } from '@/components/ConversionNotFound'
+import ConversionNotFound from '@/components/ConversionNotFound'
 import ConversionPageSkeleton from '@/components/ConversionPageSkeleton'
 import ConversionStats from '@/components/ConversionStats'
 import RatesFeed from '@/components/RatesFeed'
@@ -31,7 +31,7 @@ export default function ConversionPage() {
   if (!data) return <ConversionNotFound />
 
   return (
-    <div>
+    <div className="min-w-[800px]">
       <div className="grid grid-cols-3">
         <div className="text-left">
           <div className="flex items-center justify-start space-x-4">

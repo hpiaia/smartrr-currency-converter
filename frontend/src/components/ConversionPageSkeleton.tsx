@@ -4,7 +4,7 @@ export default function ConversionPageSkeleton() {
   return (
     <div>
       <div className="flex justify-between">
-        <div className="">
+        <div>
           <div className="mr-auto h-[36px] w-32 animate-pulse rounded bg-slate-100"></div>
           <div className="mr-auto mt-2 h-[16px] w-36 animate-pulse rounded bg-slate-100"></div>
         </div>
@@ -13,7 +13,7 @@ export default function ConversionPageSkeleton() {
           <ArrowRightLeftIcon className="text-primary-200 h-6 w-6" />
         </div>
 
-        <div className="">
+        <div>
           <div className="ml-auto h-[36px] w-32 animate-pulse rounded bg-slate-100"></div>
           <div className="ml-auto mt-2 h-[16px] w-36 animate-pulse rounded bg-slate-100"></div>
         </div>

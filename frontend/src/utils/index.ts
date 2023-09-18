@@ -1,5 +1,4 @@
 import { type ClassValue, clsx } from 'clsx'
-import currency from 'currency.js'
 import { formatDistanceToNow } from 'date-fns'
 import { twMerge } from 'tailwind-merge'
 
@@ -12,7 +11,7 @@ export function formatTimeAgo(date: string) {
 }
 
 export function formatCurrency(amount: number) {
-  return currency(amount, { precision: 4, symbol: '' }).format()
+  return Intl.NumberFormat('en-US', { minimumFractionDigits: 4 }).format(amount)
 }
 
 export function formatPercent(amount: number) {

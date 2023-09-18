@@ -21,28 +21,34 @@ const schema = z.object({
 export default function CreateConversionModal({ open, onClose }: Props) {
   const [{ fetching }, createConversion] = useCreateConversionMutation()
 
-  const { control, handleSubmit, formState } = useForm<z.infer<typeof schema>>({
+  const { control, formState, reset, handleSubmit } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   })
 
+  function closeAndReset() {
+    onClose()
+    setTimeout(() => reset(), 300) // wait for animation to finish before resetting form
+  }
+
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={() => closeAndReset()}>
       <div className="mt-2 text-center text-xl font-medium">Create conversion</div>
 
       <form
         className="mt-6 flex h-full flex-col space-y-6"
         onSubmit={handleSubmit(async (data) => {
           await createConversion(data)
-          onClose()
+          closeAndReset()
         })}
       >
         <Controller
           control={control}
           name="from"
-          render={({ field: { onChange } }) => (
+          render={({ field: { value, onChange } }) => (
             <CurrencySelect
               label="From"
               onChange={onChange}
+              defaultValue={value}
               error={formState.errors.from?.message?.toString()}
               required
             />
@@ -52,8 +58,14 @@ export default function CreateConversionModal({ open, onClose }: Props) {
         <Controller
           control={control}
           name="to"
-          render={({ field: { onChange } }) => (
-            <CurrencySelect label="To" onChange={onChange} error={formState.errors.to?.message?.toString()} required />
+          render={({ field: { value, onChange } }) => (
+            <CurrencySelect
+              label="To"
+              onChange={onChange}
+              defaultValue={value}
+              error={formState.errors.to?.message?.toString()}
+              required
+            />
           )}
         />
 

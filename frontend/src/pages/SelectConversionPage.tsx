@@ -1,6 +1,6 @@
 import select from '@/assets/select.svg'
 
-export function SelectConversionPage() {
+export default function SelectConversionPage() {
   return (
     <div className="flex h-full flex-col items-center justify-center">
       <img src={select} alt="Select a conversion" className="w-96" />
