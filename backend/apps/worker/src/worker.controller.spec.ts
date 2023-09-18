@@ -18,4 +18,10 @@ describe(WorkerController.name, () => {
     expect(controller).toBeDefined()
     expect(workerService).toBeDefined()
   })
+
+  it('should enqueue conversion when createConversion is called', async () => {
+    await controller.conversionCreated(1)
+
+    expect(workerService.enqueueConversion).toHaveBeenCalledWith(1)
+  })
 })

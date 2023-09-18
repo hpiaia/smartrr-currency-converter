@@ -26,4 +26,21 @@ describe(ApiResolver.name, () => {
     expect(conversionService).toBeDefined()
     expect(rateService).toBeDefined()
   })
+
+  it('should return conversions', async () => {
+    await controller.conversions()
+
+    expect(conversionService.findAll).toHaveBeenCalled()
+  })
+
+  it('should return a single conversion', () => {
+    expect(() => controller.conversion(1)).rejects.toThrow()
+    expect(conversionService.findById).toHaveBeenCalledWith(1)
+  })
+
+  it('should create a conversion', async () => {
+    await controller.createConversion('USD', 'BRL')
+
+    expect(conversionService.create).toHaveBeenCalledWith({ from: 'USD', to: 'BRL' })
+  })
 })
