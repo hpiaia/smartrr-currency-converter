@@ -1,20 +1,29 @@
-import { Test } from '@nestjs/testing'
+import { TestBed } from '@automock/jest'
+import { PubSub } from 'graphql-subscriptions'
 
-import { ApiModule } from './api.module'
+import { ConversionService, RateService } from '@app/core'
+
 import { ApiResolver } from './api.resolver'
 
-describe('RapidApiService', () => {
-  let resolver: ApiResolver
+describe(ApiResolver.name, () => {
+  let controller: ApiResolver
+  let pubSub: PubSub
+  let conversionService: ConversionService
+  let rateService: RateService
 
   beforeAll(async () => {
-    const module = await Test.createTestingModule({
-      imports: [ApiModule],
-    }).compile()
+    const { unit, unitRef } = TestBed.create(ApiResolver).compile()
 
-    resolver = module.get(ApiResolver)
+    controller = unit
+    pubSub = unitRef.get(PubSub)
+    conversionService = unitRef.get(ConversionService)
+    rateService = unitRef.get(RateService)
   })
 
   it('should be defined', () => {
-    expect(resolver).toBeDefined()
+    expect(controller).toBeDefined()
+    expect(pubSub).toBeDefined()
+    expect(conversionService).toBeDefined()
+    expect(rateService).toBeDefined()
   })
 })

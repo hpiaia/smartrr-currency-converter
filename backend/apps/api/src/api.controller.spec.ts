@@ -1,20 +1,21 @@
-import { Test } from '@nestjs/testing'
+import { TestBed } from '@automock/jest'
+import { PubSub } from 'graphql-subscriptions'
 
 import { ApiController } from './api.controller'
-import { ApiModule } from './api.module'
 
-describe('RapidApiService', () => {
+describe(ApiController.name, () => {
   let controller: ApiController
+  let pubSub: PubSub
 
   beforeAll(async () => {
-    const module = await Test.createTestingModule({
-      imports: [ApiModule],
-    }).compile()
+    const { unit, unitRef } = TestBed.create(ApiController).compile()
 
-    controller = module.get(ApiController)
+    controller = unit
+    pubSub = unitRef.get(PubSub)
   })
 
   it('should be defined', () => {
     expect(controller).toBeDefined()
+    expect(pubSub).toBeDefined()
   })
 })

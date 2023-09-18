@@ -1,20 +1,25 @@
-import { Test } from '@nestjs/testing'
+import { TestBed } from '@automock/jest'
 
-import { WorkerModule } from './worker.module'
+import { ConversionService, RateService } from '@app/core'
+
 import { WorkerService } from './worker.service'
 
-describe('ConverterService', () => {
+describe(WorkerService.name, () => {
   let service: WorkerService
+  let conversionService: ConversionService
+  let rateService: RateService
 
   beforeAll(async () => {
-    const module = await Test.createTestingModule({
-      imports: [WorkerModule],
-    }).compile()
+    const { unit, unitRef } = TestBed.create(WorkerService).compile()
 
-    service = module.get(WorkerService)
+    service = unit
+    conversionService = unitRef.get(ConversionService)
+    rateService = unitRef.get(RateService)
   })
 
   it('should be defined', () => {
     expect(service).toBeDefined()
+    expect(conversionService).toBeDefined()
+    expect(rateService).toBeDefined()
   })
 })
