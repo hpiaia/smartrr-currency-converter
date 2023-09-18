@@ -2,12 +2,12 @@ import { ArrowRightLeftIcon } from 'lucide-react'
 import CurrencyFlag from 'react-currency-flags'
 import { useParams } from 'react-router-dom'
 
+import { ConversionNotFound } from '@/components/ConversionNotFound'
 import ConversionPageSkeleton from '@/components/ConversionPageSkeleton'
 import ConversionStats from '@/components/ConversionStats'
 import RatesFeed from '@/components/RatesFeed'
 import { currencies } from '@/lib/currencies'
 import { useGetConversionQuery, useRateAddedSubscription } from '@/lib/gql'
-import { ConversionNotFound } from '@/components/ConversionNotFound'
 
 export default function ConversionPage() {
   const params = useParams()

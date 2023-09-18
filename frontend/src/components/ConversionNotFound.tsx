@@ -1,4 +1,3 @@
-
 import notFound from '@/assets/not-found.svg'
 
 export function ConversionNotFound() {
