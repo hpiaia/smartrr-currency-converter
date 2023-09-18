@@ -1,4 +1,9 @@
 export interface IConverterApiService {
+  /**
+   * Determines if the API supports historical rates by hour.
+   * If it does, the date parameter will be passed to the convert method.
+   * If it doesn't, the date parameter will be ignored.
+   */
   supportsHistoricalHours: boolean
 
   /**
