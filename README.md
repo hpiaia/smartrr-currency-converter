@@ -42,7 +42,7 @@ Below is a flow diagram that represents the entire application architecture:
 ## Running the application
 
 1. Copy or rename the `.env.example` file to `.env`
-2. Replace `<YOUR_RAPID_API_KEY>` by your Rapid API key inside the env file
+2. Replace `<YOUR_RAPID_API_KEY>` with your Rapid API key inside the env file
 
 TIP: You can do both steps with a single command:
 
