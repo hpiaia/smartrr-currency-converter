@@ -22,6 +22,8 @@ would be applicable on a real Smartrr project (microservices, queues, etc), that
 
   - React
   - Tailwind
+  - Urql
+  - GraphQL codegen
 
 ## Architecture
 
