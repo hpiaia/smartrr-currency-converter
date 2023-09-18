@@ -1,5 +1,7 @@
 # Smartrr - Currency Converter
 
+[![Test](https://github.com/hpiaia/smartrr-currency-converter/actions/workflows/test.yaml/badge.svg)](https://github.com/hpiaia/smartrr-currency-converter/actions/workflows/test.yaml)
+
 This is my take-home exam for the position of Back End Engineer (TypeScript) at [Smartrr](https://smartrr.com/).
 
 You can access the live version here: [smartrr-currency-converter.hpiaia.dev](https://smartrr-currency-converter.hpiaia.dev).
