@@ -11,5 +11,6 @@ import { ConverterService } from './converter.service'
 @Module({
   imports: [HttpModule, CoreModule, BrokerModule],
   providers: [ConverterService, { provide: IConverterApiService, useClass: RapidApiService }],
+  exports: [IConverterApiService],
 })
 export class ConverterModule {}

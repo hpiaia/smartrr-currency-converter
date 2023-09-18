@@ -1,4 +1,6 @@
 export interface IConverterApiService {
+  supportsHistoricalHours: boolean
+
   /**
    * Convert an amount from one currency to another at a given date.
    *

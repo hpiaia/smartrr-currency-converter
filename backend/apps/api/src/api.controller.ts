@@ -23,12 +23,12 @@ export class ApiController {
   }
 
   /**
-   * Handle rate added event.
+   * Handle rate created event.
    *
    * @param {Rate} rate - Rate
    */
-  @EventPattern('rateAdded')
-  async rateAdded(rate: Rate) {
+  @EventPattern('rate.created')
+  async rateCreated(rate: Rate) {
     this.pubSub.publish('rateAdded', { rateAdded: rate })
   }
 }

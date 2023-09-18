@@ -41,8 +41,15 @@ Below is a flow diagram that represents the entire application architecture:
 
 ## Running the application
 
-1. Copy or rename the `.env.example` file to `.env` under the backend folder
+1. Copy or rename the `.env.example` file to `.env`
 2. Replace `<YOUR_RAPID_API_KEY>` by your Rapid API key inside the env file
+
+TIP: You can do both steps with a single command:
+
+```
+sed 's/<YOUR_RAPID_API_KEY>/REAL_API_KEY/g' .env.example > .env
+```
+
 3. Run `docker compose up`
 4. Wait for the containers to be up
 5. Open http://localhost:3000

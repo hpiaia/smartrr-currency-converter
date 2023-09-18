@@ -3,7 +3,6 @@ import { Inject, Logger } from '@nestjs/common'
 import { Job } from 'bull'
 
 import { ConversionService, RateService } from '@app/core'
-import { BrokerService } from '@app/infrastructure'
 
 import { IConverterApiService } from './apis/converter-api.interface'
 
@@ -22,7 +21,6 @@ export class ConverterService {
     private readonly conversionService: ConversionService,
     private readonly rateService: RateService,
     @Inject(IConverterApiService) private readonly converterApiService: IConverterApiService,
-    private readonly brokerService: BrokerService,
   ) {
     //
   }
@@ -40,8 +38,6 @@ export class ConverterService {
     this.logger.log(`Running conversion: id = ${id}, from = ${from}, to = ${to}`)
 
     const { amount } = await this.converterApiService.convert({ from, to, date })
-    const rate = await this.rateService.create({ conversionId, amount, date })
-
-    this.brokerService.emit('rateAdded', rate)
+    await this.rateService.create({ conversionId, amount, date })
   }
 }

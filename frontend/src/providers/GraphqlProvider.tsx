@@ -2,12 +2,11 @@ import { refocusExchange } from '@urql/exchange-refocus'
 import { createClient as createWSClient } from 'graphql-ws'
 import { Client, Provider, dedupExchange, fetchExchange, subscriptionExchange } from 'urql'
 
-const wsClient = createWSClient({
-  url: process.env.VITE_API_URL!.replace(/^http/, 'ws'),
-})
+const API_URL = 'http://localhost:3001/graphql'
 
+const wsClient = createWSClient({ url: API_URL.replace(/^http/, 'ws') })
 const client = new Client({
-  url: process.env.VITE_API_URL!,
+  url: API_URL,
   exchanges: [
     dedupExchange,
     refocusExchange(),

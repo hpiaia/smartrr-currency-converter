@@ -16,8 +16,8 @@ export class WorkerController {
    *
    * @param {number} conversionId - Conversion id
    */
-  @MessagePattern('conversionCreated')
-  async conversionCreated(_conversionId: number) {
-    await this.workerService.enqueueConversionsWithoutRates()
+  @MessagePattern('conversion.created')
+  async conversionCreated(conversionId: number) {
+    await this.workerService.enqueueConversion(conversionId)
   }
 }

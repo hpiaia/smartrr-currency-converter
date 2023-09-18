@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common'
 
-import { DatabaseService } from '@app/infrastructure'
+import { BrokerService, DatabaseService } from '@app/infrastructure'
 
 @Injectable()
 export class RateService {
-  constructor(private readonly databaseService: DatabaseService) {
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly brokerService: BrokerService,
+  ) {
     //
   }
 
@@ -18,9 +21,13 @@ export class RateService {
    * @returns {Promise<Rate>} - Rate
    */
   async create({ conversionId, amount, date }: { conversionId: number; amount: number; date?: Date }) {
-    return this.databaseService.rate.create({
+    const rate = await this.databaseService.rate.create({
       data: { conversionId, amount, date },
     })
+
+    await this.brokerService.emit('rate.created', rate)
+
+    return rate
   }
 
   /**

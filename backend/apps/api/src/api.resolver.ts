@@ -3,7 +3,6 @@ import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver, Subscriptio
 import { PubSub } from 'graphql-subscriptions'
 
 import { ConversionService, RateService } from '@app/core'
-import { BrokerService } from '@app/infrastructure'
 
 import { Conversion } from './models/conversion.model'
 import { Rate } from './models/rate.model'
@@ -14,7 +13,6 @@ export class ApiResolver {
     private readonly pubSub: PubSub,
     private readonly conversionService: ConversionService,
     private readonly rateService: RateService,
-    private readonly brokerService: BrokerService,
   ) {
     //
   }
@@ -96,10 +94,6 @@ export class ApiResolver {
    */
   @Mutation(() => Conversion)
   async createConversion(@Args('from') from: string, @Args('to') to: string) {
-    const conversion = await this.conversionService.create({ from, to })
-
-    this.brokerService.emit('conversionCreated', conversion.id)
-
-    return conversion
+    return this.conversionService.create({ from, to })
   }
 }

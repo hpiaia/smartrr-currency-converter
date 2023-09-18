@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common'
 
-import { DatabaseService } from '@app/infrastructure'
+import { BrokerService, DatabaseService } from '@app/infrastructure'
 
 @Injectable()
 export class ConversionService {
-  constructor(private readonly databaseService: DatabaseService) {
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly brokerService: BrokerService,
+  ) {
     //
   }
 
@@ -39,9 +42,13 @@ export class ConversionService {
    * @returns {Promise<Conversion>} - Conversion
    */
   async create({ from, to }: { from: string; to: string }) {
-    return this.databaseService.conversion.create({
+    const conversion = await this.databaseService.conversion.create({
       data: { from, to },
     })
+
+    await this.brokerService.emit('conversion.created', conversion)
+
+    return conversion
   }
 
   /**
