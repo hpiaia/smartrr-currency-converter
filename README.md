@@ -39,7 +39,7 @@ The backend is composed of two different applications, which run independently o
 
 - Worker
 
-  - Handles the conversion queue (which is stored on Redis)
+  - Handles the conversion queue (retries, circuit breaks, paralellism, timeouts)
   - Handles the cron (runs hourly and enqueues conversions to be processed)
 
 Below is a flow diagram that represents the entire application architecture:
