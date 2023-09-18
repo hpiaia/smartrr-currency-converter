@@ -21,7 +21,12 @@ const schema = z.object({
 export default function CreateConversionModal({ open, onClose }: Props) {
   const [{ fetching }, createConversion] = useCreateConversionMutation()
 
-  const { control, formState, reset, handleSubmit } = useForm<z.infer<typeof schema>>({
+  const {
+    control,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   })
 
@@ -44,28 +49,16 @@ export default function CreateConversionModal({ open, onClose }: Props) {
         <Controller
           control={control}
           name="from"
-          render={({ field: { value, onChange } }) => (
-            <CurrencySelect
-              label="From"
-              onChange={onChange}
-              defaultValue={value}
-              error={formState.errors.from?.message?.toString()}
-              required
-            />
+          render={({ field: { onChange } }) => (
+            <CurrencySelect label="From" onChange={onChange} error={errors.from?.message} required />
           )}
         />
 
         <Controller
           control={control}
           name="to"
-          render={({ field: { value, onChange } }) => (
-            <CurrencySelect
-              label="To"
-              onChange={onChange}
-              defaultValue={value}
-              error={formState.errors.to?.message?.toString()}
-              required
-            />
+          render={({ field: { onChange } }) => (
+            <CurrencySelect label="To" onChange={onChange} error={errors.to?.message} required />
           )}
         />
 

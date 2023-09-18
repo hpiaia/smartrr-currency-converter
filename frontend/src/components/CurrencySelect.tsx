@@ -8,7 +8,6 @@ import { cn } from '@/utils'
 
 type Props = {
   label: string
-  defaultValue?: string
   error?: string
   required?: boolean
   onChange: (value: string) => void
@@ -16,7 +15,7 @@ type Props = {
 
 const currencyList = Object.entries(currencies).map(([code, name]) => ({ code, name }))
 
-export default function CurrencySelect({ label, defaultValue, error, required, onChange }: Props) {
+export default function CurrencySelect({ label, error, required, onChange }: Props) {
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<string>('')
 
@@ -47,7 +46,6 @@ export default function CurrencySelect({ label, defaultValue, error, required, o
       <div className="relative mt-2">
         <Combobox.Input
           className="focus:ring-primary-600 w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
-          value={defaultValue}
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(code: string) => currencies[code]}
         />
