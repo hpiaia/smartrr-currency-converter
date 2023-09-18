@@ -4,7 +4,7 @@
 
 This is my take-home exam for the position of Back End Engineer (TypeScript) at [Smartrr](https://smartrr.com/).
 
-You can access the live version here: [smartrr-currency-converter.hpiaia.dev](https://smartrr-currency-converter.hpiaia.dev).
+You can access the live version here: [smartrr-currency-converter.vercel.app](https://smartrr-currency-converter.vercel.app/).
 
 ## Technologies
 
