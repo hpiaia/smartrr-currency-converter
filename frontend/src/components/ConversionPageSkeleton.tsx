@@ -44,14 +44,14 @@ export default function ConversionPageSkeleton() {
 
       <div className="mt-5 grid grid-cols-2 gap-12">
         <div>
-          {[...Array(5)].map(() => (
-            <div className="mt-3 h-[24px] w-full animate-pulse rounded bg-slate-100" />
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="mt-3 h-[24px] w-full animate-pulse rounded bg-slate-100" />
           ))}
         </div>
 
         <div>
-          {[...Array(5)].map(() => (
-            <div className="mt-3 h-[24px] w-full animate-pulse rounded bg-slate-100" />
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="mt-3 h-[24px] w-full animate-pulse rounded bg-slate-100" />
           ))}
         </div>
       </div>

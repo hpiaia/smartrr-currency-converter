@@ -44,7 +44,7 @@ export default function ConversionStats({ rates }: Props) {
         {rates.length < 2 ? (
           <dt className="text-sm font-semibold leading-6 text-slate-600">Not enough data</dt>
         ) : (
-          <Sparklines data={rates.map((rate) => rate.amount)} height={75}>
+          <Sparklines data={rates.map((rate) => rate.amount)} height={60} style={{ height: 60 }}>
             <SparklinesLine color="blue" />
           </Sparklines>
         )}

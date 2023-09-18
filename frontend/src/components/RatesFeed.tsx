@@ -68,8 +68,9 @@ export default function RatesFeed({ rates }: Props) {
 
             <div className="grid grid-cols-2 gap-12">
               {Object.entries(grouped).map(([date, groupedRates]) => (
-                <div>
+                <div key={date}>
                   <h3 className="text-base font-semibold leading-6 text-slate-900">{date}</h3>
+
                   {groupedRates.length > 0 && (
                     <table className="mt-2 min-w-full divide-y divide-slate-300">
                       <thead>
