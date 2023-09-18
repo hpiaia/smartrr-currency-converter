@@ -46,7 +46,7 @@ export class ConversionService {
       data: { from, to },
     })
 
-    await this.brokerService.emit('conversion.created', conversion)
+    await this.brokerService.emit('conversion.created', conversion.id)
 
     return conversion
   }
