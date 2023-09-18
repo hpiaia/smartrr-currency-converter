@@ -17,7 +17,7 @@ would be applicable on a real Smartrr project (microservices, queues, etc), that
   - Redis (queue and message broker)
   - Nest (application framework)
   - GraphQL (entrypoint for the api)
-  - Jest (for testing)
+  - Jest (testing)
 
 - Frontend
 
