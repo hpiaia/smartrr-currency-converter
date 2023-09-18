@@ -21,19 +21,19 @@ export default function ConversionPageSkeleton() {
 
       <dl className="mt-8 grid grid-cols-4 gap-0.5 overflow-hidden rounded-2xl text-center">
         <div className="flex flex-col bg-slate-50 p-8">
-          <div className="mx-auto h-[58px] w-48 animate-pulse rounded bg-slate-100" />
+          <div className="mx-auto h-[58px] w-full animate-pulse rounded bg-slate-100" />
         </div>
 
         <div className="flex flex-col bg-slate-50 p-8">
-          <div className="mx-auto h-[58px] w-48 animate-pulse rounded bg-slate-100" />
+          <div className="mx-auto h-[58px] w-full animate-pulse rounded bg-slate-100" />
         </div>
 
         <div className="flex flex-col bg-slate-50 p-8">
-          <div className="mx-auto h-[58px] w-48 animate-pulse rounded bg-slate-100" />
+          <div className="mx-auto h-[58px] w-full animate-pulse rounded bg-slate-100" />
         </div>
 
         <div className="flex flex-col bg-slate-50 p-8">
-          <div className="mx-auto h-[58px] w-48 animate-pulse rounded bg-slate-100" />
+          <div className="mx-auto h-[58px] w-full animate-pulse rounded bg-slate-100" />
         </div>
       </dl>
 
