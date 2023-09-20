@@ -1,10 +1,14 @@
-const { pathsToModuleNameMapper } = require('ts-jest')
 const { compilerOptions } = require('./tsconfig.json')
 
-/** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+  transform: {
+    '^.+\\.(t|j)s?$': ['@swc/jest'],
+  },
   modulePaths: [compilerOptions.baseUrl],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+  moduleNameMapper: {
+    '^@app/infrastructure$': 'libs/infrastructure/src',
+    '^@app/infrastructure/(.*)$': 'libs/infrastructure/src/$1',
+    '^@app/core$': 'libs/core/src',
+    '^@app/core/(.*)$': 'libs/core/src/$1',
+  },
 }
