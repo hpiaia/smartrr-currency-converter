@@ -1,5 +1,6 @@
 import { BullModule } from '@nestjs/bull'
 import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
 import { ScheduleModule } from '@nestjs/schedule'
 
 import { CoreModule } from '@app/core'
@@ -10,6 +11,7 @@ import { WorkerService } from './worker.service'
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     ScheduleModule.forRoot(),
     BullModule.registerQueue({
       name: 'conversions',
