@@ -4,10 +4,6 @@
 
 This is my take-home exam for the position of Back End Engineer (TypeScript) at [Smartrr](https://smartrr.com/).
 
-You can access the live version here: [smartrr-currency-converter.vercel.app](https://smartrr-currency-converter.vercel.app/).
-
-GraphQL playground: [smartrr-currency-converter-api.onrender.com/graphql](https://smartrr-currency-converter-api.onrender.com/graphql)
-
 ## Technologies
 
 Although the stack chosen for this project is a bit _too much_ for this specific application, I wanted to pick tools that
